@@ -1,0 +1,40 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kube-service
+spec:
+  type: LoadBalancer
+  externalIPs:
+  - 3.238.190.129
+  selector:
+    app: kube-service
+  ports:
+  - protocol: TCP
+    port: 8080
+    nodePort: 30000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-deployment
+  labels:
+    app: kube-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-deployment
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: kube-deployment
+        track: stable
+    spec:
+      containers:
+      - name: kube-addressbook
+        image: erashish01/myaddressapp
+        ports:
+        - containerPort: 8080
