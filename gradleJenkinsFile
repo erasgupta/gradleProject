@@ -1,0 +1,19 @@
+pipeline{
+    tools{
+        jdk 'java8'
+        gradle 'mygradle'
+    }
+    agent any
+    stages{
+        stage('checkout'){
+            steps{
+                git 'https://github.com/erasgupta/gradleProject.git'
+            }
+        }
+        stage('gradleBuild'){
+            steps{
+                sh 'gradle clean assemble'
+            }
+        }
+    }
+}
